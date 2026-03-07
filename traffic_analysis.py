@@ -45,7 +45,7 @@ def main():
     #so.optimum(user_graph, vehicle_count, initial, final)
 
     # calculate nash equilibrium
-    #ne.equilibrium(user_graph, vehicle_count, initial, final)
+    ne.equilibrium(user_graph, vehicle_count, initial, final)
 
     # call the visualization function
     #if "--plot" in args:
