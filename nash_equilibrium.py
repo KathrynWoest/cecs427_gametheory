@@ -1,4 +1,5 @@
 import networkx as nx
+import itertools as it
 
 
 def equilibrium(graph, vehicles, start, end):
@@ -14,39 +15,59 @@ def equilibrium(graph, vehicles, start, end):
         
         # get a list of every possible path a vehicle can take from start to end
         all_paths = list(nx.all_simple_paths(graph, start, end))
+        path_count = len(all_paths)
 
-        # calculate the potential energy for if the vehicles all take the first path in the all_paths list
-        # use this path as the starting potential energy for the rest of the program
-        lowest_pe = 0
-        first_path = all_paths[0]
+        # calculate all the possible ways the vehicles can be distributed across the paths
+        # each tuple in the list is one distribution, displayed as (v1, v2, v3, ...)
+        # vi is an int representing the path chosen by vi
+        all_path_dists = list(it.combinations_with_replacement(range(path_count), vehicles))
+
+        # create a list of distributions where each list in all_vehicle_dists represents the number of vehicles on each path for the dist
+        # for example, [2, 1, 3] means 2 vehicles took path 0, 1 took path 1, and 3 took path 2
+        # this will make calculating the path potential energies much easier
+        all_vehicle_dists = []
+        for path in all_path_dists:
+            # for each distribution, create a sublist the size of the number of paths
+            path_dist = [0]*path_count
+            # for each vehicle in the distribution, track which path it takes
+            for v in path:
+                path_dist[v] += 1
+            all_vehicle_dists.append(path_dist)
         
-        for node in range(len(first_path) - 1):
-            # determine 'a' and 'b' for each edge in the path
-            n1 = first_path[node]
-            n2 = first_path[node + 1]
-            a = graph[n1][n2]['a']
-            b = graph[n1][n2]['b']
+        lowest_pe = float("inf")
+        lowest_pe_dist = None
 
-            # calculate the potential energy of each edge and add it to the total energy
-            for i in range(1, vehicles + 1):
-                lowest_pe += (a * i) + b
+        # calculate the potential energy of every possible distribution
+        for dist in all_vehicle_dists:
+            current_pe = 0
+            edge_flow = {}
+            # for all the paths in the distribution, determine the number of times each edge is used
+            for path, count in enumerate(dist):
+                if count > 0:
+                    current_path = all_paths[path]
+                    for node in range(len(current_path) - 1):
+                        n1 = current_path[node]
+                        n2 = current_path[node + 1]
+                        edge_flow[(n1, n2)] = edge_flow.get((n1, n2), 0) + count
 
-            # try each path with v1. then for each option for v1, try every path for v2. and so on
-            # ex with 2 vehicles and 3 paths:
-                # for path 1, assign v1 to it. then try path 1, 2, and 3 for v2 and keep lowest pe
-                # for path 2, assign v1 to it. then try path 1, 2, and 3 for v2 and keep lowest pe of all of them
+            # calculate the potential energy of each edge and add it to the total energy for the distribution
+            for (n1, n2), flow in edge_flow.items():
+                a = graph[n1][n2]['a']
+                b = graph[n1][n2]['b']
+                for i in range(1, flow + 1):
+                    current_pe += (a * i) + b
 
-            # for tomorrow:
-                # use intertools.combinations_with_replacement(range(len(all_paths)), vehicles) to get an iterable item that picks all possible combinations for vehicles distributed over number of paths
-                    # list(itertools.c...) with return a list of tuples like so: [(1,2), (1,3), (1,4)]. in this case, each tuple represents paths chosen, so (v1, v2, v3, ...) where vi will have the number of the path chosen
-                    # then go through each resulting tuple and count the number of vehicles that chose each path, and store that in a tuple that is the size of the paths, not the vehicles. so (2, 1, 3) indicates 2 vehicles picked path 1, 1 picked 2, etc
-                    # put all of those tuples in a list
-                    # we now have a list of every possible numerical way the vehicles can be distributed across the paths
-                # use the method i used above to calculate pe to calculate it for every single tuple in that list
-                    # extract to a new function possibly, and do the same for intertools distribution
-                    # use enumerate() to collect the location in the tuple and the value in the tuple
-                # if the pe is lower than the current highest, save it and save the distribution tuple to return
-                # start the pe off with float("inf"), representing infinity
+            # if the currently calculated potential energy is lower than the current lowest, replace the lowest and save the distribution
+            if current_pe < lowest_pe:
+                lowest_pe = current_pe
+                lowest_pe_dist = dist
+        
+        # print and return all results
+        print(f"The travel equilibrium has a potential energy of {lowest_pe}. Here are the path distributions:")
+        for path, v in enumerate(lowest_pe_dist):
+            print(f"{v} vehicles take path {path}: {all_paths[path]}")
+
+        return lowest_pe_dist
 
     except Exception as e:
         print(f"Calculation of travel equilibrium was terminated because there was an error. Error:", e)
