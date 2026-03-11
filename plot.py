@@ -131,6 +131,6 @@ def plot(graph):
     fig.show()
 
     file_path = os.path.abspath("graph.html")
-    fig.write_html("file_path", auto_open=False)
+    fig.write_html("graph", auto_open=False)
     webbrowser.open("file://" + file_path)
 
