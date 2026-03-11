@@ -42,7 +42,7 @@ def main():
         raise Exception(f"Program terminated because there was an error in reading in the final node. Error:", e)
     
     # calculate social optimum
-    so.optimum(user_graph, vehicle_count, initial, final)
+    so.social_optimal(user_graph, vehicle_count, initial, final)
 
     # calculate nash equilibrium
     ne.equilibrium(user_graph, vehicle_count, initial, final)
