@@ -2,8 +2,8 @@
 
 import sys
 import file_i as fi
-#import plot
-#import social_optimum as so
+import plot
+import social_optimum as so
 import nash_equilibrium as ne
 
 
@@ -42,13 +42,13 @@ def main():
         raise Exception(f"Program terminated because there was an error in reading in the final node. Error:", e)
     
     # calculate social optimum
-    #so.optimum(user_graph, vehicle_count, initial, final)
+    so.optimum(user_graph, vehicle_count, initial, final)
 
     # calculate nash equilibrium
     ne.equilibrium(user_graph, vehicle_count, initial, final)
 
     # call the visualization function
-    #if "--plot" in args:
-    #    plot.plot(user_graph)
+    if "--plot" in args:
+        plot.plot(user_graph)
     
 main()
