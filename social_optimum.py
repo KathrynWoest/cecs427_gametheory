@@ -25,11 +25,8 @@ def social_optimal(graph, num_vehicles, source_node, target_node):
         sum_edges += graph_copy[u][v]['weight']
 
     social_opt = sum_edges * num_vehicles
+    print(f"Social Optimum: {social_opt}")
 
     return social_opt
 
-# Compute the weights all the paths ax+b
-# Find the shortest path
-# Find all unique edges used in the shortest path (edges with the same weight)
-# Sum them, multiply them by number of drivers
 
