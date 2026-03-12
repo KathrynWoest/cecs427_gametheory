@@ -10,6 +10,9 @@ def social_optimal(graph, num_vehicles, source_node, target_node):
         - num_vehicles (int): the number of vehicles
         - source_node (int): the starting node
         - target_node (int): the ending node
+
+    Returns:
+        - lowest_so (int): the calculated social optimum
     """
 
     # get a list of every possible path a vehicle can take from start to end
@@ -64,17 +67,18 @@ def social_optimal(graph, num_vehicles, source_node, target_node):
 
         # if the currently calculated social optimum is lower than the current lowest, replace the lowest and save the distribution
         if current_so < lowest_so:
-            counter = counter + 1
-            print(counter)
-            print(current_so)
-            print(lowest_so)
             lowest_so = current_so
-            lowest_so_dist = dist
+            lowest_so_dist = edge_flow
+    
+    # add all edges with no vehicles to the distribution and set their flow to be 0
+        for n1, n2 in graph.edges():
+            if (n1, n2) not in lowest_so_dist:
+                lowest_so_dist[(n1, n2)] = 0
 
     # print and return all results
-    print(f"The social optimum of the path is {lowest_so}. Here are the path distributions:")
-    for path, v in enumerate(lowest_so_dist):
-        print(f"{v} vehicles take path {path}: {all_paths[path]}")
+    print(f"The social optimum is {lowest_so}. Here are the edge distributions:")
+    for (n1, n2), v in lowest_so_dist.items():
+        print(f"{v} vehicles take edge ({n1}, {n2})")
     print("\n")
 
     return lowest_so
