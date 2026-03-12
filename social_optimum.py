@@ -79,7 +79,6 @@ def social_optimal(graph, num_vehicles, source_node, target_node):
     print(f"The social optimum is {lowest_so}. Here are the edge distributions:")
     for (n1, n2), v in lowest_so_dist.items():
         print(f"{v} vehicles take edge ({n1}, {n2})")
-    print("\n")
 
     return lowest_so
 
