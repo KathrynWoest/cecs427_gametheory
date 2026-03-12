@@ -3,14 +3,7 @@ import itertools as it
 
 def social_optimal(graph, num_vehicles, source_node, target_node):
 
-    # graph_copy = graph.copy()
-
-    # Compute the weights (time costs) of all the paths (ax+b) and add them to the copied graph
-    # for (u,v) in graph_copy.edges():
-    #     if graph_copy[u][v]['a'] is not 0:
-    #         graph_copy[u][v]['weight'] = graph_copy[u][v]['a'] * num_vehicles + graph_copy[u][v]['b']
-    #     elif graph_copy[u][v]['a'] is 0 and graph_copy[u][v]['b'] is 0:
-    #         graph_copy[u][v]['weight'] = num_vehicles
+    
 
     # get a list of every possible path a vehicle can take from start to end
     try:
@@ -76,7 +69,7 @@ def social_optimal(graph, num_vehicles, source_node, target_node):
     for path, v in enumerate(lowest_so_dist):
         print(f"{v} vehicles take path {path}: {all_paths[path]}")
     print("\n")
-    
+
     return lowest_so
 
 
