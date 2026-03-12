@@ -15,7 +15,6 @@ def social_optimal(graph, num_vehicles, source_node, target_node):
         - lowest_so (int): the calculated social optimum
     """
 
-    # get a list of every possible path a vehicle can take from start to end
     try:
         # get a list of every possible path a vehicle can take from start to end
         all_paths = list(nx.all_simple_paths(graph, source_node, target_node))
@@ -31,9 +30,8 @@ def social_optimal(graph, num_vehicles, source_node, target_node):
 
     # create a list of distributions where each list in all_vehicle_dists represents the number of vehicles on each path for the dist
     # for example, [2, 1, 3] means 2 vehicles took path 0, 1 took path 1, and 3 took path 2
-    # this will make calculating the path potential energies much easier
+    # this will make calculating the social optimum much easier
     all_vehicle_dists = []
-    counter = 0
     for path in all_path_dists:
         # for each distribution, create a sublist the size of the number of paths
         path_dist = [0]*path_count
