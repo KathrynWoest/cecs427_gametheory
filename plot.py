@@ -16,7 +16,7 @@ def plot(graph):
     """
 
     G = graph
-    pos = nx.circular_layout(G)
+    pos = nx.kamada_kawai_layout(G)
 
     # Creating edges
     edge_x = []
@@ -47,9 +47,17 @@ def plot(graph):
         x0, y0 = pos[u]
         x1, y1 = pos[v]
 
-        # midpoint
+        # calculating midpoint (shifting to avoid label overlap)
         mx = (x0 + x1) / 2
         my = (y0 + y1) / 2
+
+        dx = x1 - x0
+        dy = y1 - y0
+        length = (dx**2 + dy**2)**0.5
+
+        offset = 0.03
+        mx += -dy/length * offset
+        my +=  dx/length * offset
 
         # coefficients
         a = data.get('a', 0)
@@ -89,7 +97,7 @@ def plot(graph):
         mode='markers+text',
         text=list(G.nodes()),
         textposition="top center",
-        marker=dict(size=10)
+        marker=dict(size=20)
     )
 
     # Adding arrows to indicate direction
@@ -111,10 +119,11 @@ def plot(graph):
                 ayref='y',
                 showarrow=True,
                 arrowhead=3,
-                arrowsize=1,
-                arrowwidth=1
+                arrowsize=2.5,   
+                arrowwidth=1.2     
             )
         )
+        
 
     # Plotting final directed graph with edge labels
     fig = go.Figure(
@@ -122,6 +131,7 @@ def plot(graph):
     layout=go.Layout(
         showlegend=False,
         hovermode='closest',
+        annotations=annotations,
         xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False)
         )
@@ -131,6 +141,6 @@ def plot(graph):
     fig.show()
 
     file_path = os.path.abspath("graph.html")
-    fig.write_html("file_path", auto_open=False)
+    fig.write_html("graph", auto_open=False)
     webbrowser.open("file://" + file_path)
 
