@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 
 def plot(graph):
     """
-    Plots and visualizes the given directed graph with each edge labeled with polynomial
+    Plots and visualizes the given directed graph with each edge labeled with its polynomial
     and arrows to indicate direction. 
     
     Parameters:
