@@ -68,6 +68,7 @@ def equilibrium(graph, vehicles, start, end):
                 lowest_pe_dist[(n1, n2)] = 0
         
         # print and return all results
+        print("-----")
         print(f"The travel equilibrium has a potential energy of {lowest_pe}. Here are the edge distributions:")
         for (n1, n2), v in lowest_pe_dist.items():
             print(f"{v} vehicles take edge ({n1}, {n2})")
