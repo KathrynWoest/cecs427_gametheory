@@ -60,12 +60,17 @@ def equilibrium(graph, vehicles, start, end):
             # if the currently calculated potential energy is lower than the current lowest, replace the lowest and save the distribution
             if current_pe < lowest_pe:
                 lowest_pe = current_pe
-                lowest_pe_dist = dist
+                lowest_pe_dist = edge_flow
+        
+        # add all edges with no vehicles to the distribution and set their flow to be 0
+        for n1, n2 in graph.edges():
+            if (n1, n2) not in lowest_pe_dist:
+                lowest_pe_dist[(n1, n2)] = 0
         
         # print and return all results
-        print(f"The travel equilibrium has a potential energy of {lowest_pe}. Here are the path distributions:")
-        for path, v in enumerate(lowest_pe_dist):
-            print(f"{v} vehicles take path {path}: {all_paths[path]}")
+        print(f"The travel equilibrium has a potential energy of {lowest_pe}. Here are the edge distributions:")
+        for (n1, n2), v in lowest_pe_dist.items():
+            print(f"{v} vehicles take edge ({n1}, {n2})")
 
         return lowest_pe_dist
 
