@@ -2,8 +2,15 @@ import networkx as nx
 import itertools as it
 
 def social_optimal(graph, num_vehicles, source_node, target_node):
+    """
+    Finds the social optimum of a directed graph from a specified starting and ending node.
 
-    
+    Parameters:
+        - graph (NetworkX graph): the graph containing the network
+        - num_vehicles (int): the number of vehicles
+        - source_node (int): the starting node
+        - target_node (int): the ending node
+    """
 
     # get a list of every possible path a vehicle can take from start to end
     try:
@@ -48,14 +55,14 @@ def social_optimal(graph, num_vehicles, source_node, target_node):
                     n2 = current_path[node + 1]
                     edge_flow[(n1, n2)] = edge_flow.get((n1, n2), 0) + count
 
-        # calculate the time cost of each edge and add it to social optimum for the distribution
+        # calculate the time cost of each edge and calculate the social optimum of the current distribution
         for (n1, n2), flow in edge_flow.items():
             a = graph[n1][n2]['a']
             b = graph[n1][n2]['b']
 
             current_so += flow * ((a * flow) + b)
 
-        # if the currently calculated potential energy is lower than the current lowest, replace the lowest and save the distribution
+        # if the currently calculated social optimum is lower than the current lowest, replace the lowest and save the distribution
         if current_so < lowest_so:
             counter = counter + 1
             print(counter)
