@@ -69,9 +69,9 @@ def social_optimal(graph, num_vehicles, source_node, target_node):
             lowest_so_dist = edge_flow
     
     # add all edges with no vehicles to the distribution and set their flow to be 0
-        for n1, n2 in graph.edges():
-            if (n1, n2) not in lowest_so_dist:
-                lowest_so_dist[(n1, n2)] = 0
+    for n1, n2 in graph.edges():
+        if (n1, n2) not in lowest_so_dist:
+            lowest_so_dist[(n1, n2)] = 0
 
     # print and return all results
     print(f"The social optimum is {lowest_so}. Here are the edge distributions:")
