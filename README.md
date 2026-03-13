@@ -3,7 +3,7 @@ Completed By: Kathryn Woest (030131541) and Grace Flores (030169163)
 
 
 ## Usage Instructions
-**NOTE:** `plot.py` relies on a command that is not compatible with WSL. This command automatically opens up the graph's visualization. If you are unable to use a different terminal like Powershell, comment out `plot.py`'s line 141 and instead manually open the generated `.html` file through your file explorer.
+**NOTE:** `plot.py` relies on a command that is not compatible with WSL. This command automatically opens up the graph's visualization. If you are unable to use a different terminal like Powershell, comment out `plot.py`'s line 143 and instead manually open the generated `.html` file through your file explorer.
 
 1. Clone this repo and open it on your IDE
 
@@ -28,6 +28,6 @@ Completed By: Kathryn Woest (030131541) and Grace Flores (030169163)
 ## Example Commands and Outputs
 1. Command: `python3 traffic_analysis.py traffic.gml 4 0 3 --plot`
 2. Command: `python3 traffic_analysis.py traffic2.gml 5 2 4`
-3. Command: `python3 traffic_analysis.py traffic2.gml 3 5 2`
+3. Command: `python3 traffic_analysis.py traffic.gml 7 1 3`
 
-Outputs for all are annotated in this PDF: 
+Outputs for all are annotated in this PDF: https://pdflink.to/7a28927e/
