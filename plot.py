@@ -138,8 +138,6 @@ def plot(graph):
     )
 
     # Generating figure
-    fig.show()
-
     file_path = os.path.abspath("graph.html")
     fig.write_html("graph.html", auto_open=False)
     webbrowser.open("file://" + file_path)
